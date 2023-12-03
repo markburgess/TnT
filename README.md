@@ -1,7 +1,7 @@
 
 # Trust and Trustworthiness
 
-This library is a stripped down version of the Trustability project https://github.com/markburgess/Trustability. There is no rocket science in these methods. They provide simple solution methods that are just nor provided by other projects. They can be viewed as pedagogical examples to be incorporated into other code, perhaps replacing files with embedded databases etc, where appropriate.
+This library is a stripped down version of some of the utilities developed for the Trustability project https://github.com/markburgess/Trustability. These provide intentionally simple solution methods that are not provided by other projects. They can be viewed as pedagogical examples to be incorporated into other code, perhaps replacing files with embedded databases etc, where appropriate.
 
 ## Test program examples
 
