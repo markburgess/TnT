@@ -3,6 +3,9 @@
 
 This library is a stripped down version of some of the utilities developed for the Trustability project https://github.com/markburgess/Trustability. These provide intentionally simple solution methods that are not provided by other projects. They can be viewed as pedagogical examples to be incorporated into other code, perhaps replacing files with embedded databases etc, where appropriate.
 
+The purpose of this library is probably not what you think it should be. There is no library that can assess trust for you, or that can make your code more trustworthy. The methods here assist in the practical management of trust and the policies we form around it. If you'd like to understand what they have to do with trust, please
+refer to the project page at http://markburgess.org/trustproject.html
+
 ## Test program examples
 
 `test_context_eval.go` - evaluate some test policy expressions
