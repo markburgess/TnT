@@ -11,12 +11,19 @@ describe policy conditions. An undefined variable or a variable with value 0 is 
 and any positive value is somewhat true.
 
 -`InitializeContext()` - reset all symbols in context to undefined / false
+
 -`ContextActive(string)` - active the symbol, set to true
+
 -`ContextSet()` - return the set of defined symbols
+
 -`SetContext(s string,c float64)` - set the real value of a context variable to an explicit real confidence value
+
 -`Confidence(s string) float64` - return the real value named symbol
+
 -`ContextEval(s string) (string,float64)` - return the real value of the expression evaluated according to AND/OR algebra rules
+
 -`IsDefinedContext(s string) bool` - if the expression evaluates to a result greater than zero according to AND/OR algebra rules this returns true
+
 
 ## Running the code:
 
