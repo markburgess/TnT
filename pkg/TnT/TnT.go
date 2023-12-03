@@ -319,7 +319,9 @@ var CONTEXT map[string]float64
 
 // *******************************************************************************
 
-func ContextAdd(s string) {
+func ContextActive(s string) {
+
+	// Machine learn in a Bayesian fashion a context state assumed true if called
 
 	CONTEXT[s] = 0.5 + 0.5 * CONTEXT[s]
 }
@@ -345,6 +347,8 @@ func ContextSet() []string {
 
 func InitializeContext() {
 
+	// Reset / empty all signal values in context
+
 	if !IsDir(KVDIR) {
 		
 		os.MkdirAll(KVDIR, 0755)
@@ -356,6 +360,8 @@ func InitializeContext() {
 // *******************************************************************************
 
 func SetContext(s string,c float64) {
+
+	// Set the probability / confidence of the identifer explicitly
 
 	CONTEXT[s] = c
 }
@@ -379,7 +385,7 @@ func IsDefinedContext(s string) bool {
 
 func Confidence(s string) float64 {
 
-	// Evalute general boolean expressions CFEngine style
+	// Evalute a real number return for expressions CFEngine style
 
 	_,confidence := ContextEval(s)
 

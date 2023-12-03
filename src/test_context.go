@@ -36,7 +36,7 @@ func main() {
 
 		if some_test {
 
-			TnT.ContextAdd("state_of_uncertainty")
+			TnT.ContextActive("state_of_uncertainty")
 		}
 		
 		if TnT.IsDefinedContext(policy_condition) {
@@ -46,7 +46,7 @@ func main() {
 			fmt.Println("No matching context",TnT.ContextSet())
 		}
 
-		TnT.ContextAdd("state_flag")
+		TnT.ContextActive("state_flag")
 	}
 }
 

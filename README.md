@@ -3,6 +3,21 @@
 
 This library is a stripped down version of the Trustability project https://github.com/markburgess/Trustability. There is no rocket science in these methods. They provide simple solution methods that are just nor provided by other projects. They can be viewed as pedagogical examples to be incorporated into other code, perhaps replacing files with embedded databases etc, where appropriate.
 
+## Method
+
+The method is to assign real numbers between 0and 1 to flag/signal variables that are set as a result
+of conditions within a program, and to evaluate quasi-logical probabilistic expressions to
+describe policy conditions. An undefined variable or a variable with value 0 is effectively false
+and any positive value is somewhat true.
+
+-`InitializeContext()` - reset all symbols in context to undefined / false
+-`ContextActive(string)` - active the symbol, set to true
+-`ContextSet()` - return the set of defined symbols
+-`SetContext(s string,c float64)` - set the real value of a context variable to an explicit real confidence value
+-`Confidence(s string) float64` - return the real value named symbol
+-`ContextEval(s string) (string,float64)` - return the real value of the expression evaluated according to AND/OR algebra rules
+-`IsDefinedContext(s string) bool` - if the expression evaluates to a result greater than zero according to AND/OR algebra rules this returns true
+
 ## Running the code:
 
 My working environment is GNU/Linux, where everything is simple. Setting up the working environment for all the parts is a little bit of work (more steps than are desirable), but it should be smooth.
