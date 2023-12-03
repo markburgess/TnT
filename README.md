@@ -3,12 +3,48 @@
 
 This library is a stripped down version of the Trustability project https://github.com/markburgess/Trustability. There is no rocket science in these methods. They provide simple solution methods that are just nor provided by other projects. They can be viewed as pedagogical examples to be incorporated into other code, perhaps replacing files with embedded databases etc, where appropriate.
 
-## Method
+## Test program examples
 
-The method is to assign real numbers between 0and 1 to flag/signal variables that are set as a result
-of conditions within a program, and to evaluate quasi-logical probabilistic expressions to
-describe policy conditions. An undefined variable or a variable with value 0 is effectively false
-and any positive value is somewhat true.
+`test_context_eval.go` - evaluate some test policy expressions
+
+`test_context.go` - example of using context in dynamic changes
+
+`test_promise_wrapper.go` - example of using the promise locking wrapper
+
+## Promise instrumentation methods
+
+
+Two sets of functions for wrapping transactional events or critical sections parenthetically (with begin-end semantics).
+
+* Functions that timestamp transactions at the moment of measurement according to the local system clock
+
+```
+ PromiseContext_Begin(g Analytics, name string) PromiseContext 
+ PromiseContext_End(g Analytics, ctx PromiseContext) PromiseHistory 
+```
+
+* Functions with Golang time stamp supplied from outside, e.g. for offline analysis with epoch timestamps.
+
+```
+ StampedPromiseContext_Begin(g Analytics, name string, before time.Time) PromiseContext 
+ StampedPromiseContext_End(g Analytics, ctx PromiseContext, after time.Time) PromiseHistory
+```
+
+The wrappers refuse to acquire a lock unless a minmum time has elapsed.
+If a maximum holding time has expired, the lock will be forced.
+The configured values are currently fixed at 30 and sixty seconds.
+```
+   ifelapsed := int64(30)
+   expireafter := int64(60)
+```
+
+## Context methods
+
+The method is to assign real numbers between 0and 1 to flag/signal
+variables that are set as a result of conditions within a program, and
+to evaluate quasi-logical probabilistic expressions to describe policy
+conditions. An undefined variable or a variable with value 0 is
+effectively false and any positive value is somewhat true.
 
 -`InitializeContext()` - reset all symbols in context to undefined / false
 
