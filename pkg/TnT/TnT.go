@@ -321,7 +321,7 @@ var CONTEXT map[string]float64
 
 func ContextAdd(s string) {
 
-	CONTEXT[s]++
+	CONTEXT[s] = 0.5 + 0.5 * CONTEXT[s]
 }
 
 // *******************************************************************************
@@ -362,7 +362,22 @@ func SetContext(s string,c float64) {
 
 // *******************************************************************************
 
-func Context(s string) float64 {
+func IsDefinedContext(s string) bool {
+
+	// Evalute general boolean expressions CFEngine style
+
+	r,confidence := ContextEval(s)
+
+	if r == "bad expression" {
+		fmt.Println("Bad context expression:",s)
+	}
+
+	return (confidence > 0)
+}
+
+// *******************************************************************************
+
+func Confidence(s string) float64 {
 
 	// Evalute general boolean expressions CFEngine style
 
@@ -421,10 +436,12 @@ func ContextEval(s string) (string,float64) {
 				res = CONTEXT[token]
 			}
 
+			// P(A and B) = AB
 			and_result *= res
 		}
 
-		or_result += and_result
+		// P(A or B) ~ (A + B - AB)
+		or_result += and_result - (or_result) * and_result
 	}
 
 	return expr,or_result
@@ -435,13 +452,13 @@ func ContextEval(s string) (string,float64) {
 func CleanExpression(s string) string {
 
 	s = TrimParen(s)
-
 	r1 := regexp.MustCompile("[|]+") 
 	s = r1.ReplaceAllString(s,"|") 
 	r2 := regexp.MustCompile("[&]+") 
 	s = r2.ReplaceAllString(s,".") 
 	r3 := regexp.MustCompile("[.]+") 
 	s = r3.ReplaceAllString(s,".") 
+
 	return s
 }
 
@@ -548,7 +565,7 @@ func TrimParen(s string) string {
 		}
 	}
 	
-	return "bad expression"
+	return s
 }
 
 // ***************************************************************************
@@ -936,8 +953,8 @@ func BeginService(name string, ifelapsed,expireafter int64, now int64) Lock {
 
 	var lock Lock
 
-	lock.Last = fmt.Sprintf("%s/last.%s",LOCKDIR,name)
-	lock.This = fmt.Sprintf("%s/lock.%s",LOCKDIR,name)
+	lock.Last = fmt.Sprintf("last.%s",name)
+	lock.This = fmt.Sprintf("lock.%s",name)
 	lock.Ready = true
 	
 	lastcompleted := GetLockTime(lock.Last)
@@ -1010,7 +1027,12 @@ func GetLockTime(filename string) int64 {
 
 func AcquireLock(name string) {
 
-	f, err := os.OpenFile(name,os.O_CREATE|os.O_WRONLY, 0644)
+	if !IsDir(LOCKDIR) {
+		
+		os.MkdirAll(LOCKDIR, 0755)
+	}
+
+	f, err := os.OpenFile(LOCKDIR+name,os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
 		fmt.Println("Couldn't acquire lock to create",name,err)
@@ -1024,10 +1046,10 @@ func AcquireLock(name string) {
 
 func RemoveLock(name string) {
 
-	err := os.Remove(name)
+	err := os.Remove(LOCKDIR+name)
 
 	if err != nil {
-		fmt.Println("Unable to remove",name,err)
+		//fmt.Println("Unable to remove",name,err)
 	}
 }
 

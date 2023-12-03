@@ -102,5 +102,12 @@ func main() {
 	cmp4e := 1
 	expr4e,res4e := TnT.ContextEval(str4e)
 	fmt.Println("10.",str4e,"---->",expr4e,res4e,"CMP",cmp4e,"\n")
+
+	str5 := " ( a ) | b&c"
+	cmp5 := 1
+	expr5,res5 := TnT.ContextEval(str5)
+	fmt.Println("11.",str5,"---->",expr5,res5,"CMP",cmp5,"\n")
+
+
 }
 
